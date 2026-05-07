@@ -30,14 +30,21 @@ public class SciopoInMan extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        
+        // PLAYER
         playerNode = new Node("player");
         playerNode.setLocalTranslation(0, 0, 5f); 
-        rootNode.attachChild(playerNode); 
-        flyCam.setEnabled(false);
+        rootNode.attachChild(playerNode);
+        
         PlayerInputState inputState = new PlayerInputState();
         stateManager.attach(inputState);
         playerNode.addControl(new PlayerControl(inputState, cam));
 
+        // STATES
+        flyCam.setEnabled(false);
+        inputManager.setCursorVisible(false);
+
+        // OBJECTS
         Box b = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", b);
 

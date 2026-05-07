@@ -1,5 +1,6 @@
 package sciopoinman.game.client;
 
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
@@ -10,7 +11,11 @@ public class PlayerControl extends AbstractControl {
 
     private PlayerInputState inputState;
     private Camera cam;
-    private final float speed = 5f;
+
+    private final float speed = 7f;
+    private final float sensitivity = 3f;
+    private float yaw = 0f;
+    private float pitch = 0f;
 
     public PlayerControl(PlayerInputState inputState, Camera cam) {
         this.inputState = inputState;
@@ -19,24 +24,48 @@ public class PlayerControl extends AbstractControl {
     
     @Override
     protected void controlUpdate(float tpf) {
+
+        // KEYBOARD MOVEMENT
         Vector3f movement = new Vector3f(0, 0, 0);
         
-        if (inputState.isMoveForward()) 
-            movement.addLocal(cam.getDirection());
-        if (inputState.isMoveLeft()) 
-            movement.addLocal(cam.getDirection().negate());
-        if (inputState.isMoveBack()) 
-            movement.addLocal(cam.getLeft());
-        if (inputState.isMoveRight()) 
-            movement.addLocal(cam.getLeft().negate());
-
+        if (inputState.isMoveForward()) {
+            Vector3f dir = cam.getDirection().clone();
+            dir.y = 0;
+            movement.addLocal(dir);
+        }
+        if (inputState.isMoveBack()) {
+            Vector3f dir = cam.getDirection().clone().negate();
+            dir.y = 0;
+            movement.addLocal(dir);
+        }
+        if (inputState.isMoveLeft()) {
+            Vector3f left = cam.getLeft().clone();
+            left.y = 0;
+            movement.addLocal(left);
+        }
+        if (inputState.isMoveRight()) {
+            Vector3f left = cam.getLeft().clone().negate();
+            left.y = 0;
+            movement.addLocal(left);
+        }
         if (movement.length() > 0) 
             movement.normalizeLocal();
 
         spatial.move(movement.mult(speed * tpf));
-
         cam.setLocation(spatial.getWorldTranslation().add(0, 1.7f, 0));
 
+
+        // MOUSE MOVEMENT        
+        // LEFT/RIGHT
+        
+        yaw   -= inputState.getMouseX() * sensitivity;
+        pitch -= inputState.getMouseY() * sensitivity;
+
+        pitch = Math.max(-1.5f, Math.min(1.5f, pitch));
+
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngles(pitch, yaw, 0);
+        cam.setRotation(rotation);
     }
 
     @Override
