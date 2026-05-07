@@ -1,4 +1,4 @@
-package sciopoinman.game;
+package sciopoinman.game.client;
 
 public class PlayerInput {
     
