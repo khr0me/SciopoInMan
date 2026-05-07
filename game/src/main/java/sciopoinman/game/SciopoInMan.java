@@ -1,11 +1,15 @@
 package sciopoinman.game;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.AppState;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
-import com.jme3.app.state.AppState;
+
+import sciopoinman.game.client.PlayerControl;
+import sciopoinman.game.client.PlayerInputState;
 
 /**
  * The JMonkeyEngine game entry, you should only do initializations for your game here, game logic is handled by
@@ -14,6 +18,8 @@ import com.jme3.app.state.AppState;
  *
  */
 public class SciopoInMan extends SimpleApplication {
+
+    private Node playerNode;
 
     public SciopoInMan() {
     }
@@ -24,6 +30,14 @@ public class SciopoInMan extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        playerNode = new Node("player");
+        playerNode.setLocalTranslation(0, 0, 5f); 
+        rootNode.attachChild(playerNode); 
+        flyCam.setEnabled(false);
+        PlayerInputState inputState = new PlayerInputState();
+        stateManager.attach(inputState);
+        playerNode.addControl(new PlayerControl(inputState, cam));
+
         Box b = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", b);
 
