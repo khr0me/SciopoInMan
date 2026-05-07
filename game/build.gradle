@@ -1,0 +1,26 @@
+plugins {
+    id 'java-library'
+    id "io.github.0ffz.github-packages" version "1.2.1" // Plugin for anonymous inclusion of artifacts hosted in github package registry
+}
+
+dependencies {
+    api libs.jmeCore
+    runtimeOnly libs.jmeJogg
+    runtimeOnly libs.jmePlugins
+
+    api libs.jmeEffects
+    api libs.jmeTerrain
+    api libs.jmeNetworking
+
+
+    api libs.heart
+    api libs.minie
+    api libs.minie
+    api libs.particlemonkey
+    api libs.lemur
+    api libs.lemur.proto
+    
+    implementation 'org.jmonkeyengine:jme3-core:3.6.1-stable'
+    implementation 'org.jmonkeyengine:jme3-desktop:3.6.1-stable'
+    implementation 'org.jmonkeyengine:jme3-lwjgl3:3.6.1-stable'
+}
