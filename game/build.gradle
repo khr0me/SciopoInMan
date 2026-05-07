@@ -15,7 +15,6 @@ dependencies {
 
     api libs.heart
     api libs.minie
-    api libs.minie
     api libs.particlemonkey
     api libs.lemur
     api libs.lemur.proto

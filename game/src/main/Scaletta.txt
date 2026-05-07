@@ -1,0 +1,33 @@
+Architettura: Listen Server
+Un giocatore fa da host — il suo gioco fa sia da server che da client contemporaneamente. Gli altri si connettono a lui.
+Host (Server + Client 1)
+    ├── Client 2
+    ├── Client 3
+    └── Client 4...
+
+Struttura del progetto consigliata
+sciopoinman/game/
+    ├── SciopoInMan.java          ← entry point, sceglie se host o client
+    ├── server/
+    │   ├── GameServer.java       ← logica server, gestisce connessioni
+    │   └── ServerState.java      ← AppState del server
+    ├── client/
+    │   ├── GameClient.java       ← connessione al server
+    │   ├── ClientState.java      ← AppState del client
+    │   └── PlayerInputState.java ← legge tastiera, manda input al server
+    ├── common/
+    │   ├── Messages.java         ← tutti i messaggi di rete (input, posizioni...)
+    │   └── PlayerData.java       ← dati condivisi di un giocatore
+    └── world/
+        └── WorldState.java       ← mappa, terreno, cielo
+
+Ordine di sviluppo consigliato
+Dato che parti dal cubo blu, ti suggerisco questo ordine:
+
+Menu — scegli "Host" o "Join"
+Connessione di rete — server che accetta client
+Movimento giocatore — WASD + mouse FPS
+Sincronizzazione posizioni — ogni client vede gli altri
+Sparo e proiettili
+Mappa WW1 — trincee, terreno, cielo
+HUD — vita, munizioni
