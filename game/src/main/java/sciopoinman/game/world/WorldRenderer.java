@@ -2,9 +2,9 @@ package sciopoinman.game.world;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Node;
-import sciopoinman.game.world.layers.SkyLayer;
+
 import sciopoinman.game.world.layers.GroundLayer;
-import com.jme3.renderer.Camera;
+import sciopoinman.game.world.layers.SkyLayer;
 
 public class WorldRenderer {
 

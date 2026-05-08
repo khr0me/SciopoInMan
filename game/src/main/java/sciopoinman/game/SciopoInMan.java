@@ -2,6 +2,7 @@ package sciopoinman.game;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppState;
+import com.jme3.math.Quaternion;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
@@ -35,8 +36,9 @@ public class SciopoInMan extends SimpleApplication {
         
         // PLAYER
         playerNode = new Node("player");
-        playerNode.setLocalTranslation(0, 0, 5f); 
+        playerNode.setLocalTranslation(0, 0, 0f); 
         rootNode.attachChild(playerNode);
+        cam.setRotation(new Quaternion().fromAngles(0, 0, 0));
         
         PlayerInputState inputState = new PlayerInputState();
         stateManager.attach(inputState);
@@ -49,10 +51,8 @@ public class SciopoInMan extends SimpleApplication {
         // OBJECTS
         Box b = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", b);
-
-       flyCam.setEnabled(true);
-
-       worldState = new WorldState();
-       worldRenderer = new WorldRenderer(assetManager, rootNode);
+        
+        worldState = new WorldState();
+        worldRenderer = new WorldRenderer(assetManager, rootNode);
    }
 }

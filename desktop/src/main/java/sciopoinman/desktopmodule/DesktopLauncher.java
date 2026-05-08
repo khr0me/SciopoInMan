@@ -13,8 +13,8 @@ public class DesktopLauncher {
         final SciopoInMan game = new SciopoInMan();
 
         final AppSettings appSettings = new AppSettings(true);
-        appSettings.setFullscreen(false);
-        appSettings.setResolution(1920, 1080);
+        appSettings.setFullscreen(true);
+        // appSettings.setResolution(1920, 1080); 
 
         game.setSettings(appSettings);
         game.setShowSettings(false);

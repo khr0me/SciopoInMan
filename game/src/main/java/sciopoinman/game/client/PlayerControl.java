@@ -25,6 +25,18 @@ public class PlayerControl extends AbstractControl {
     @Override
     protected void controlUpdate(float tpf) {
 
+        // MOUSE ROTATION        
+        // LEFT/RIGHT
+        
+        yaw   -= inputState.getMouseX() * sensitivity;
+        pitch -= inputState.getMouseY() * sensitivity;
+
+        pitch = Math.max(-1.5f, Math.min(1.5f, pitch));
+
+        Quaternion rotation = new Quaternion();
+        rotation.fromAngles(pitch, yaw, 0);
+        cam.setRotation(rotation);
+
         // KEYBOARD MOVEMENT
         Vector3f movement = new Vector3f(0, 0, 0);
         
@@ -53,19 +65,6 @@ public class PlayerControl extends AbstractControl {
 
         spatial.move(movement.mult(speed * tpf));
         cam.setLocation(spatial.getWorldTranslation().add(0, 1.7f, 0));
-
-
-        // MOUSE MOVEMENT        
-        // LEFT/RIGHT
-        
-        yaw   -= inputState.getMouseX() * sensitivity;
-        pitch -= inputState.getMouseY() * sensitivity;
-
-        pitch = Math.max(-1.5f, Math.min(1.5f, pitch));
-
-        Quaternion rotation = new Quaternion();
-        rotation.fromAngles(pitch, yaw, 0);
-        cam.setRotation(rotation);
     }
 
     @Override
