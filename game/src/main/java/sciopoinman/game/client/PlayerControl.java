@@ -1,5 +1,6 @@
 package sciopoinman.game.client;
 
+import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -11,15 +12,17 @@ public class PlayerControl extends AbstractControl {
 
     private PlayerInputState inputState;
     private Camera cam;
+    private BetterCharacterControl physicsChar;
 
     private final float speed = 7f;
     private final float sensitivity = 3f;
     private float yaw = 0f;
     private float pitch = 0f;
 
-    public PlayerControl(PlayerInputState inputState, Camera cam) {
+    public PlayerControl(PlayerInputState inputState, Camera cam, BetterCharacterControl physicsChar) {
         this.inputState = inputState;
         this.cam = cam;
+        this.physicsChar = physicsChar;
     }
     
     @Override
@@ -62,6 +65,8 @@ public class PlayerControl extends AbstractControl {
         }
         if (movement.length() > 0) 
             movement.normalizeLocal();
+        
+        physicsChar.setWalkDirection(movement.mult(speed));
 
         spatial.move(movement.mult(speed * tpf));
         cam.setLocation(spatial.getWorldTranslation().add(0, 1.7f, 0));

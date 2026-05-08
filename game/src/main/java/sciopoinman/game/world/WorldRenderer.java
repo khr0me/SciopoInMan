@@ -1,6 +1,7 @@
 package sciopoinman.game.world;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.scene.Node;
 
 import sciopoinman.game.world.layers.GroundLayer;
@@ -10,9 +11,10 @@ public class WorldRenderer {
 
     private SkyLayer skyLayer;
     private GroundLayer groundLayer;
+    private PhysicsSpace physicsSpace;
 
-    public WorldRenderer(AssetManager assetManager, Node rootNode) {
+    public WorldRenderer(AssetManager assetManager, Node rootNode, PhysicsSpace physicsSpace) {
         skyLayer = new SkyLayer(assetManager, rootNode);
-        groundLayer = new GroundLayer(assetManager, rootNode);
+        groundLayer = new GroundLayer(assetManager, rootNode, physicsSpace);
     }
 }
