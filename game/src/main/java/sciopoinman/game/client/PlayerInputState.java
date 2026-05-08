@@ -16,6 +16,7 @@ public class PlayerInputState extends BaseAppState {
     private boolean moveLeft;
     private boolean moveBack;
     private boolean moveRight;
+    private boolean switchView;
     private float MouseX;
     private float MouseY;
 
@@ -37,6 +38,7 @@ public class PlayerInputState extends BaseAppState {
             case "Left" -> moveLeft = isPressed;
             case "Back" -> moveBack = isPressed;
             case "Right" -> moveRight = isPressed;
+            case "SwitchView" -> { if (isPressed) switchView = true; }
             default -> {
             }
         }
@@ -51,13 +53,7 @@ public class PlayerInputState extends BaseAppState {
     protected void onDisable() {
 
     }
-
-    // @Override
-    // public void update(float tpf) {
-    //     MouseX = 0;
-    //     MouseY = 0;
-    // }
-
+    
 
     // PLAYER INPUTS
     
@@ -83,6 +79,9 @@ public class PlayerInputState extends BaseAppState {
         app.getInputManager().addMapping("Back", new KeyTrigger(KeyInput.KEY_S));
         app.getInputManager().addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
         app.getInputManager().addListener(actionListener, "Forward", "Left", "Back", "Right");
+
+        app.getInputManager().addMapping("SwitchView", new KeyTrigger(KeyInput.KEY_V));
+        app.getInputManager().addListener(actionListener, "SwitchView");
 
         // MOUSE
         app.getInputManager().setCursorVisible(false);
@@ -122,5 +121,11 @@ public class PlayerInputState extends BaseAppState {
         float val = MouseY;
         MouseY = 0;
         return val;
-    }  
+    }
+    
+    public boolean isSwitchView() {
+        boolean val = switchView;
+        switchView = false;
+        return val;
+    }
 }

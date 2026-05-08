@@ -7,6 +7,7 @@ import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.math.Quaternion;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 
 import sciopoinman.game.client.PlayerControl;
@@ -44,6 +45,9 @@ public class SciopoInMan extends SimpleApplication {
 
         PlayerInputState inputState = new PlayerInputState();
         stateManager.attach(inputState);
+
+        Spatial model = assetManager.loadModel("Models/soldier.glb");
+        playerNode.attachChild(model);
 
         // STATES
         flyCam.setEnabled(false);

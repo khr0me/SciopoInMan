@@ -13,11 +13,14 @@ public class PlayerControl extends AbstractControl {
     private PlayerInputState inputState;
     private Camera cam;
     private BetterCharacterControl physicsChar;
+    private boolean thirdPerson = false;
 
     private final float speed = 7f;
     private final float sensitivity = 3f;
     private float yaw = 0f;
     private float pitch = 0f;
+    private final Vector3f firstPersonOffset = new Vector3f(0, 1.7f, 0);
+    private final Vector3f thirdPersonOffset = new Vector3f(0, 2.5f, -5f);
 
     public PlayerControl(PlayerInputState inputState, Camera cam, BetterCharacterControl physicsChar) {
         this.inputState = inputState;
@@ -65,11 +68,43 @@ public class PlayerControl extends AbstractControl {
         }
         if (movement.length() > 0) 
             movement.normalizeLocal();
-        
+
         physicsChar.setWalkDirection(movement.mult(speed));
 
         spatial.move(movement.mult(speed * tpf));
-        cam.setLocation(spatial.getWorldTranslation().add(0, 1.7f, 0));
+        Vector3f offset = thirdPerson ? thirdPersonOffset : firstPersonOffset;
+        if (inputState.isSwitchView()) thirdPerson = !thirdPerson;
+
+        Quaternion bodyRotation = new Quaternion();
+        bodyRotation.fromAngles(0, yaw, 0);
+        spatial.setLocalRotation(bodyRotation);
+
+        Quaternion camRotation = new Quaternion();
+        camRotation.fromAngles(pitch, yaw, 0);
+        cam.setRotation(camRotation);
+        cam.setLocation(spatial.getWorldTranslation().add(offset));
+
+        if (thirdPerson) {
+            float clampedPitch = Math.max(-0.3f, Math.min(0.6f, pitch));
+    
+            // CAM DISTANCE AND HEIGHT - THIRD PERSON
+            float distance = 7f;
+            float height = 3f;
+            
+            // THIRD PERSON CAMERA POSITION (BEHIND PLAYER)
+            Vector3f playerPos = spatial.getWorldTranslation().add(0, height, 0);
+            
+            float camX = playerPos.x - (float)(Math.sin(yaw) * distance);
+            float camY = playerPos.y + (float)(Math.sin(clampedPitch) * distance);
+            float camZ = playerPos.z - (float)(Math.cos(yaw) * distance);
+            
+            cam.setLocation(new Vector3f(camX, camY, camZ));
+            cam.lookAt(playerPos, Vector3f.UNIT_Y);
+        } else {
+            cam.setLocation(spatial.getWorldTranslation().add(0, 3f, 0));
+            camRotation.fromAngles(pitch, yaw, 0);
+            cam.setRotation(camRotation);
+        }
     }
 
     @Override
