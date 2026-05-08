@@ -12,8 +12,10 @@ sciopoinman/game/
     │   ├── GameServer.java       ← logica server, gestisce connessioni
     │   └── ServerState.java      ← AppState del server
     ├── client/
-    │   ├── GameClient.java       ← connessione al server
     │   ├── ClientState.java      ← AppState del client
+    │   ├── GameClient.java       ← connessione al server
+    │   ├── PlayerControl.java    ← Controlli giocatore
+    │   ├── HudState.java         ← visualizzazione dati (es. munizioni, vita, stamina)
     │   └── PlayerInputState.java ← legge tastiera, manda input al server
     ├── common/
     │   ├── Messages.java         ← tutti i messaggi di rete (input, posizioni...)

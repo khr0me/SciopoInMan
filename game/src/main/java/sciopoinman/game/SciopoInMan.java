@@ -1,17 +1,25 @@
 package sciopoinman.game;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.AppState;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+<<<<<<< HEAD
 import com.jme3.scene.shape.Quad;
 
 import sciopoinman.game.world.WorldRenderer;
 import sciopoinman.game.world.WorldState;
 
 import com.jme3.app.state.AppState;
+=======
+
+import sciopoinman.game.client.PlayerControl;
+import sciopoinman.game.client.PlayerInputState;
+>>>>>>> aeabe748d1281ef3cefb6e17b2de41e8b4e30a0b
 
 /**
  * The JMonkeyEngine game entry, you should only do initializations for your game here, game logic is handled by
@@ -23,6 +31,8 @@ public class SciopoInMan extends SimpleApplication {
     private WorldRenderer worldRenderer;
     private WorldState worldState;
 
+    private Node playerNode;
+
     public SciopoInMan() {
     }
 
@@ -30,8 +40,30 @@ public class SciopoInMan extends SimpleApplication {
         super(initialStates);
     }
 
+<<<<<<< HEAD
    @Override
    public void simpleInitApp() {
+=======
+    @Override
+    public void simpleInitApp() {
+        
+        // PLAYER
+        playerNode = new Node("player");
+        playerNode.setLocalTranslation(0, 0, 5f); 
+        rootNode.attachChild(playerNode);
+        
+        PlayerInputState inputState = new PlayerInputState();
+        stateManager.attach(inputState);
+        playerNode.addControl(new PlayerControl(inputState, cam));
+
+        // STATES
+        flyCam.setEnabled(false);
+        inputManager.setCursorVisible(false);
+
+        // OBJECTS
+        Box b = new Box(1, 1, 1);
+        Geometry geom = new Geometry("Box", b);
+>>>>>>> aeabe748d1281ef3cefb6e17b2de41e8b4e30a0b
 
        flyCam.setEnabled(true);
 

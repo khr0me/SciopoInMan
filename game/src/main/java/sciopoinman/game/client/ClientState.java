@@ -1,5 +1,5 @@
 package sciopoinman.game.client;
 
-public class PlayerInput {
+public class ClientState {
     
 }
