@@ -13,6 +13,7 @@ import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
+import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.terrain.heightmap.HillHeightMap;
 import com.jme3.texture.Texture;
 
@@ -24,24 +25,8 @@ public class GroundLayer {
     private float rockScale = 128;
 
     public GroundLayer(AssetManager assetManager, Node rootNode, PhysicsSpace physicsSpace, Camera cam) {
-            /*Quad q = new Quad(100f, 100f);
-            q.scaleTextureCoordinates(new com.jme3.math.Vector2f(17f, 17f));
-            Geometry ground = new Geometry("Ground", q);
 
-            // carica texture invece del colore
-            Texture tex = assetManager.loadTexture("Textures/ground.png");
-            tex.setWrap(Texture.WrapMode.Repeat);
-
-            Material m = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-            m.setTexture("ColorMap", tex); // ← setTexture invece di setColor
-
-            ground.setMaterial(m);
-            ground.setLocalTranslation(-50f, -5f, 50f);
-            ground.rotate(-FastMath.HALF_PI, 0f, 0f);
-            rootNode.attachChild(ground);
-
-
-            */
+        Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/splat/mountains1024.png");
         matRock = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
         matRock.setBoolean("useTriPlanarMapping", false);
         matRock.setTexture("Alpha", assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
@@ -66,7 +51,8 @@ public class GroundLayer {
 
         AbstractHeightMap heightmap = null;
         try {
-            heightmap = new HillHeightMap(513, 600, 1, 40, (byte) 3);
+            // heightmap = new HillHeightMap(513, 600, 10, 40, (byte) 3);
+            heightmap = new ImageBasedHeightMap(heightMapImage.getImage(), 1f);
             heightmap.load();
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +63,7 @@ public class GroundLayer {
         control.setLodCalculator( new DistanceLodCalculator(65, 2.7f) ); // patch size, and a multiplier
         terrain.addControl(control);
         terrain.setMaterial(matRock);
-        terrain.setLocalTranslation(-50f, -300f, 50f);
+        terrain.setLocalTranslation(-50f, -100f, 50f);
         terrain.setLocalScale(1f, 0.05f, 1f);
 
         RigidBodyControl groundPhysics = new RigidBodyControl(0f);

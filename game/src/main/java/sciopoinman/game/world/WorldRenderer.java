@@ -2,8 +2,8 @@ package sciopoinman.game.world;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSpace;
-import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
+import com.jme3.renderer.Camera;
 
 import sciopoinman.game.world.layers.GroundLayer;
 import sciopoinman.game.world.layers.SkyLayer;
