@@ -10,12 +10,13 @@ import sciopoinman.game.world.layers.SkyLayer;
 
 public class WorldRenderer {
 
-    private SkyLayer skyLayer;
-    private GroundLayer groundLayer;
-    private PhysicsSpace physicsSpace;
+    @SuppressWarnings("unused")
+    private final SkyLayer skyLayer;
+    @SuppressWarnings("unused")
+    private final GroundLayer groundLayer;
 
     public WorldRenderer(AssetManager assetManager, Node rootNode, PhysicsSpace physicsSpace, Camera cam) {
-        skyLayer = new SkyLayer(assetManager, rootNode);
-        groundLayer = new GroundLayer(assetManager, rootNode, physicsSpace, cam);
+        this.skyLayer = new SkyLayer(assetManager, rootNode);
+        this.groundLayer = new GroundLayer(assetManager, rootNode, physicsSpace, cam);
     }
 }

@@ -5,10 +5,8 @@ import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.math.Quaternion;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 
 import sciopoinman.game.client.PlayerControl;
 import sciopoinman.game.client.PlayerInputState;
@@ -22,7 +20,9 @@ import sciopoinman.game.world.WorldState;
  *
  */
 public class SciopoInMan extends SimpleApplication {
+    @SuppressWarnings("unused")
     private WorldRenderer worldRenderer;
+    @SuppressWarnings("unused")
     private WorldState worldState;
 
     private Node playerNode;
@@ -54,9 +54,6 @@ public class SciopoInMan extends SimpleApplication {
         inputManager.setCursorVisible(false);
 
         // OBJECTS
-        Box b = new Box(1, 1, 1);
-        Geometry geom = new Geometry("Box", b);
-
         worldState = new WorldState();
 
         // PLAYER

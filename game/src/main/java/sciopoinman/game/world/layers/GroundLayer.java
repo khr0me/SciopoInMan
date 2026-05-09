@@ -4,11 +4,8 @@ import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
-import com.jme3.math.FastMath;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Quad;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
@@ -17,7 +14,7 @@ import com.jme3.terrain.heightmap.HillHeightMap;
 import com.jme3.texture.Texture;
 
 public class GroundLayer {
-    private TerrainQuad terrain;
+    private final TerrainQuad terrain;
     private Material matRock;
     private float grassScale = 64;
     private float dirtScale = 16;
@@ -64,12 +61,19 @@ public class GroundLayer {
         matRock.setTexture("Tex3", rock);
         matRock.setFloat("Tex3Scale", rockScale);
 
-        AbstractHeightMap heightmap = null;
+        AbstractHeightMap heightmap;
         try {
             heightmap = new HillHeightMap(513, 600, 1, 40, (byte) 3);
             heightmap.load();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Failed to load heightmap: " + e.getMessage());
+            // Create a default flat heightmap as fallback
+            try {
+                heightmap = new HillHeightMap(513, 600, 0, 0, (byte) 1);
+                heightmap.load();
+            } catch (Exception ex) {
+                throw new RuntimeException("Failed to create fallback heightmap", ex);
+            }
         }
 
         terrain = new TerrainQuad("terrain", 65, 513, heightmap.getHeightMap());

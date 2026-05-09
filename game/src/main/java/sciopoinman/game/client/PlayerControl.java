@@ -10,42 +10,50 @@ import com.jme3.scene.control.AbstractControl;
 
 public class PlayerControl extends AbstractControl {
 
-    private PlayerInputState inputState;
-    private Camera cam;
-    private BetterCharacterControl physicsChar;
+    public static float getCamDistance() {
+        return CAM_DISTANCE;
+    }
+
+    private final PlayerInputState inputState;
+    private final Camera cam;
+    private final BetterCharacterControl physicsChar;
     private boolean thirdPerson = false;
 
     private final float speed = 7f;
-    private final float sensitivity = 3f;
+    private final float sensitivity = 15f;
     private float yaw = 0f;
     private float pitch = 0f;
-    private final Vector3f firstPersonOffset = new Vector3f(0, 1.7f, 0);
-    private final Vector3f thirdPersonOffset = new Vector3f(0, 2.5f, -5f);
+
+    // Prima persona: offset occhi
+    private static final Vector3f firstPersonOffset = new Vector3f(0, 1.7f, 0);
+
+    // CAM DISTANCE AND HEIGHT - THIRD PERSON DEFAULT
+    private static final float CAM_DISTANCE = 7f;
+    private static final float CAM_HEIGHT = 3f;
 
     public PlayerControl(PlayerInputState inputState, Camera cam, BetterCharacterControl physicsChar) {
-        this.inputState = inputState;
-        this.cam = cam;
+        this.inputState  = inputState;
+        this.cam         = cam;
         this.physicsChar = physicsChar;
     }
-    
+
     @Override
     protected void controlUpdate(float tpf) {
 
-        // MOUSE ROTATION        
+        // TOGGLE VISTA
+        if (inputState.isSwitchView()) {
+            thirdPerson = !thirdPerson;
+        }
+
+        // MOUSE ROTATION
         // LEFT/RIGHT
-        
-        yaw   -= inputState.getMouseX() * sensitivity;
-        pitch -= inputState.getMouseY() * sensitivity;
-
-        pitch = Math.max(-1.5f, Math.min(1.5f, pitch));
-
-        Quaternion rotation = new Quaternion();
-        rotation.fromAngles(pitch, yaw, 0);
-        cam.setRotation(rotation);
+        yaw   -= inputState.getMouseX() * sensitivity * tpf;
+        pitch -= inputState.getMouseY() * sensitivity * tpf;
+        pitch  = Math.max(-1.5f, Math.min(1.5f, pitch));
 
         // KEYBOARD MOVEMENT
         Vector3f movement = new Vector3f(0, 0, 0);
-        
+
         if (inputState.isMoveForward()) {
             Vector3f dir = cam.getDirection().clone();
             dir.y = 0;
@@ -57,59 +65,57 @@ public class PlayerControl extends AbstractControl {
             movement.addLocal(dir);
         }
         if (inputState.isMoveLeft()) {
-            Vector3f left = cam.getLeft().clone();
-            left.y = 0;
-            movement.addLocal(left);
+            movement.addLocal(cam.getLeft().clone().setY(0));
         }
         if (inputState.isMoveRight()) {
-            Vector3f left = cam.getLeft().clone().negate();
-            left.y = 0;
-            movement.addLocal(left);
+            movement.addLocal(cam.getLeft().clone().negate().setY(0));
         }
-        if (movement.length() > 0) 
+
+        if (movement.length() > 0)
             movement.normalizeLocal();
 
+        // Solo physicsChar muove il personaggio — rimuovi spatial.move()
         physicsChar.setWalkDirection(movement.mult(speed));
 
-        spatial.move(movement.mult(speed * tpf));
-        Vector3f offset = thirdPerson ? thirdPersonOffset : firstPersonOffset;
-        if (inputState.isSwitchView()) thirdPerson = !thirdPerson;
+        // JUMP
+        if (inputState.isJump() && physicsChar.isOnGround()) {
+            physicsChar.jump();
+        }
 
+        // ROTAZIONE CORPO (solo asse Y)
         Quaternion bodyRotation = new Quaternion();
         bodyRotation.fromAngles(0, yaw, 0);
         spatial.setLocalRotation(bodyRotation);
 
-        Quaternion camRotation = new Quaternion();
-        camRotation.fromAngles(pitch, yaw, 0);
-        cam.setRotation(camRotation);
-        cam.setLocation(spatial.getWorldTranslation().add(offset));
+        if (!thirdPerson) {
 
-        if (thirdPerson) {
-            float clampedPitch = Math.max(-0.3f, Math.min(0.6f, pitch));
-    
-            // CAM DISTANCE AND HEIGHT - THIRD PERSON
-            float distance = 7f;
-            float height = 3f;
-            
-            // THIRD PERSON CAMERA POSITION (BEHIND PLAYER)
-            Vector3f playerPos = spatial.getWorldTranslation().add(0, height, 0);
-            
-            float camX = playerPos.x - (float)(Math.sin(yaw) * distance);
-            float camY = playerPos.y + (float)(Math.sin(clampedPitch) * distance);
-            float camZ = playerPos.z - (float)(Math.cos(yaw) * distance);
-            
-            cam.setLocation(new Vector3f(camX, camY, camZ));
-            cam.lookAt(playerPos, Vector3f.UNIT_Y);
-        } else {
-            cam.setLocation(spatial.getWorldTranslation().add(0, 3f, 0));
-            camRotation.fromAngles(pitch, yaw, 0);
-            cam.setRotation(camRotation);
+            // FIRST PERSON CAMERA POSITION
+            cam.setLocation(spatial.getWorldTranslation().add(firstPersonOffset));
+            Quaternion camRot = new Quaternion();
+            camRot.fromAngles(pitch, yaw, 0);
+            cam.setRotation(camRot);
+
+        } else if (thirdPerson) {
+            updateThirdPersonCamera(CAM_DISTANCE, -0.3f, 0.5f);
         }
+    }
+
+    private void updateThirdPersonCamera(float distance, float pitchMin, float pitchMax) {
+        float clampedPitch = Math.max(pitchMin, Math.min(pitchMax, pitch));
+
+        // THIRD PERSON CAMERA POSITION (BEHIND PLAYER)
+        Vector3f playerPos = spatial.getWorldTranslation().add(0, CAM_HEIGHT, 0);
+
+        float camX = playerPos.x - (float)(Math.sin(yaw)   * Math.cos(clampedPitch) * distance);
+        float camY = playerPos.y + (float)(Math.sin(clampedPitch) * distance);
+        float camZ = playerPos.z - (float)(Math.cos(yaw)   * Math.cos(clampedPitch) * distance);
+
+        cam.setLocation(new Vector3f(camX, camY, camZ));
+        cam.lookAt(playerPos, Vector3f.UNIT_Y);
     }
 
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) {
         // lascia vuoto se non ti serve rendering custom
     }
-    
 }
