@@ -2,6 +2,7 @@
 .gradle/
 build/
 bin/
+desktop/
 
 # IDEs
 .idea/

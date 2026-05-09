@@ -11,7 +11,7 @@ import com.jme3.scene.control.AbstractControl;
 public class PlayerControl extends AbstractControl {
 
     public static float getCamDistance() {
-        return CAM_DISTANCE;
+        return camDistance;
     }
 
     private final PlayerInputState inputState;
@@ -20,7 +20,7 @@ public class PlayerControl extends AbstractControl {
     private boolean thirdPerson = false;
 
     private final float speed = 7f;
-    private final float sensitivity = 15f;
+    private final float sensitivity = 23f;
     private float yaw = 0f;
     private float pitch = 0f;
 
@@ -28,8 +28,8 @@ public class PlayerControl extends AbstractControl {
     private static final Vector3f firstPersonOffset = new Vector3f(0, 2.9f, 0);
 
     // CAM DISTANCE AND HEIGHT - THIRD PERSON DEFAULT
-    private static final float CAM_DISTANCE = 7f;
-    private static final float CAM_HEIGHT = 3f;
+    private static final float camDistance = 7f;
+    private static final float camHeight = 3f;
 
     public PlayerControl(PlayerInputState inputState, Camera cam, BetterCharacterControl physicsChar) {
         this.inputState  = inputState;
@@ -100,7 +100,7 @@ public class PlayerControl extends AbstractControl {
             cam.setRotation(camRot);
 
         } else if (thirdPerson) {
-            updateThirdPersonCamera(CAM_DISTANCE, -0.3f, 0.5f);
+            updateThirdPersonCamera(camDistance, -0.3f, 0.5f);
         }
     }
 
@@ -108,7 +108,7 @@ public class PlayerControl extends AbstractControl {
         float clampedPitch = Math.max(pitchMin, Math.min(pitchMax, pitch));
 
         // THIRD PERSON CAMERA POSITION (BEHIND PLAYER)
-        Vector3f playerPos = spatial.getWorldTranslation().add(0, CAM_HEIGHT, 0);
+        Vector3f playerPos = spatial.getWorldTranslation().add(0, camHeight, 0);
 
         float camX = playerPos.x - (float)(Math.sin(yaw) * Math.cos(clampedPitch) * distance);
         float camY = playerPos.y + (float)(Math.sin(clampedPitch) * distance);

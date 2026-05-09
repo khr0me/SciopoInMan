@@ -50,6 +50,7 @@ public class GroundLayer {
             // heightmap = new HillHeightMap(513, 600, 10, 40, (byte) 3);
             heightmap = new ImageBasedHeightMap(heightMapImage.getImage(), 1f);
             heightmap.load();
+            heightmap.smooth(0.9f, 2);
         } catch (Exception e) {
             e.printStackTrace();
         }
