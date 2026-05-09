@@ -9,7 +9,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import com.jme3.renderer.Camera;
 
 import sciopoinman.game.client.PlayerControl;
 import sciopoinman.game.client.PlayerInputState;
@@ -67,6 +66,7 @@ public class SciopoInMan extends SimpleApplication {
         worldRenderer = new WorldRenderer(assetManager, rootNode, bulletAppState.getPhysicsSpace(), cam);
 
         BetterCharacterControl physicsChar = new BetterCharacterControl(0.4f, 1.8f, 80f);
+        physicsChar.setPhysicsDamping(1f);
         playerNode.addControl(physicsChar);
         playerNode.addControl(new PlayerControl(inputState, cam, physicsChar));
         bulletAppState.getPhysicsSpace().add(playerNode);

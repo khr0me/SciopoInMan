@@ -25,7 +25,7 @@ public class PlayerControl extends AbstractControl {
     private float pitch = 0f;
 
     // Prima persona: offset occhi
-    private static final Vector3f firstPersonOffset = new Vector3f(0, 1.7f, 0);
+    private static final Vector3f firstPersonOffset = new Vector3f(0, 2.9f, 0);
 
     // CAM DISTANCE AND HEIGHT - THIRD PERSON DEFAULT
     private static final float CAM_DISTANCE = 7f;
@@ -57,18 +57,20 @@ public class PlayerControl extends AbstractControl {
         if (inputState.isMoveForward()) {
             Vector3f dir = cam.getDirection().clone();
             dir.y = 0;
+            dir.normalizeLocal();
             movement.addLocal(dir);
         }
         if (inputState.isMoveBack()) {
             Vector3f dir = cam.getDirection().clone().negate();
             dir.y = 0;
+            dir.normalizeLocal();
             movement.addLocal(dir);
         }
         if (inputState.isMoveLeft()) {
-            movement.addLocal(cam.getLeft().clone().setY(0));
+            movement.addLocal(cam.getLeft().clone().setY(0).normalizeLocal());
         }
         if (inputState.isMoveRight()) {
-            movement.addLocal(cam.getLeft().clone().negate().setY(0));
+            movement.addLocal(cam.getLeft().clone().negate().setY(0).normalizeLocal());
         }
 
         if (movement.length() > 0)
