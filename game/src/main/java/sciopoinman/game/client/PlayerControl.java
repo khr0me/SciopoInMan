@@ -28,8 +28,8 @@ public class PlayerControl extends AbstractControl {
     private static final Vector3f firstPersonOffset = new Vector3f(0, 2.9f, 0);
 
     // CAM DISTANCE AND HEIGHT - THIRD PERSON DEFAULT
-    private static final float camDistance = 7f;
-    private static final float camHeight = 3f;
+    private static final float camDistance = 6f;
+    private static final float camHeight = 2.5f;
 
     public PlayerControl(PlayerInputState inputState, Camera cam, BetterCharacterControl physicsChar) {
         this.inputState  = inputState;

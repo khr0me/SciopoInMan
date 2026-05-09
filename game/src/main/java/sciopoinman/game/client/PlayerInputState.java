@@ -11,7 +11,6 @@ import com.jme3.input.controls.MouseAxisTrigger;
 public class PlayerInputState extends BaseAppState {
 
     // VARS
-
     private boolean moveForward;
     private boolean moveLeft;
     private boolean moveBack;
@@ -25,7 +24,6 @@ public class PlayerInputState extends BaseAppState {
 
     
     // LISTENERS
-
     private final AnalogListener analogListener = (name, value, tpf) -> {
         switch (name) {
             case "MouseX" -> MouseX -= value;

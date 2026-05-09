@@ -16,6 +16,12 @@ desktop/bin/
 *.dylib
 *.so
 
+# Compiled classes
+*.class
+
+# macOS
+.DS_Store
+
 # Local properties
 local.properties
 private/

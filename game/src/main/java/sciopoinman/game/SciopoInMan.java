@@ -48,7 +48,19 @@ public class SciopoInMan extends SimpleApplication {
         stateManager.attach(inputState);
 
         Spatial model = assetManager.loadModel("Models/soldier.glb");
+        model.setLocalScale(0.8f);
+        // model.setLocalTranslation(0, -0.9f, 0);
         playerNode.attachChild(model);
+
+        // LUCE
+        com.jme3.light.DirectionalLight sun = new com.jme3.light.DirectionalLight();
+        sun.setDirection(new Vector3f(-0.5f, -1f, -0.5f).normalizeLocal());
+        sun.setColor(com.jme3.math.ColorRGBA.White);
+        rootNode.addLight(sun);
+
+        com.jme3.light.AmbientLight ambient = new com.jme3.light.AmbientLight();
+        ambient.setColor(com.jme3.math.ColorRGBA.White.mult(0.3f));
+        rootNode.addLight(ambient);
 
         // STATES
         flyCam.setEnabled(false);
