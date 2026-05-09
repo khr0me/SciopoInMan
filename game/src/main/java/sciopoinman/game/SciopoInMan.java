@@ -36,10 +36,10 @@ public class SciopoInMan extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        
+
         // PLAYER
         playerNode = new Node("player");
-        playerNode.setLocalTranslation(0, 0, 0f); 
+        playerNode.setLocalTranslation(0, 0, 0f);
         rootNode.attachChild(playerNode);
         cam.setRotation(new Quaternion().fromAngles(0, 0, 0));
 
@@ -63,11 +63,11 @@ public class SciopoInMan extends SimpleApplication {
         BulletAppState bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 
-        worldRenderer = new WorldRenderer(assetManager, rootNode, bulletAppState.getPhysicsSpace());
+        worldRenderer = new WorldRenderer(assetManager, rootNode, bulletAppState.getPhysicsSpace(), cam);
 
         BetterCharacterControl physicsChar = new BetterCharacterControl(0.4f, 1.8f, 80f);
         playerNode.addControl(physicsChar);
         playerNode.addControl(new PlayerControl(inputState, cam, physicsChar));
         bulletAppState.getPhysicsSpace().add(playerNode);
-   }
+    }
 }
