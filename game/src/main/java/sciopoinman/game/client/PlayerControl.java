@@ -84,7 +84,7 @@ public class PlayerControl extends AbstractControl {
         }
 
         // SPRINT
-        float currentSpeed = (inputState.isSprint() && physicsChar.isOnGround()) ? speed + 9f : speed;
+        float currentSpeed = (inputState.isSprint() && physicsChar.isOnGround()) ? speed + 7f : speed;
         physicsChar.setWalkDirection(movement.mult(currentSpeed));
 
         // ROTAZIONE CORPO (solo asse Y)
@@ -110,9 +110,9 @@ public class PlayerControl extends AbstractControl {
         // THIRD PERSON CAMERA POSITION (BEHIND PLAYER)
         Vector3f playerPos = spatial.getWorldTranslation().add(0, CAM_HEIGHT, 0);
 
-        float camX = playerPos.x - (float)(Math.sin(yaw)   * Math.cos(clampedPitch) * distance);
+        float camX = playerPos.x - (float)(Math.sin(yaw) * Math.cos(clampedPitch) * distance);
         float camY = playerPos.y + (float)(Math.sin(clampedPitch) * distance);
-        float camZ = playerPos.z - (float)(Math.cos(yaw)   * Math.cos(clampedPitch) * distance);
+        float camZ = playerPos.z - (float)(Math.cos(yaw) * Math.cos(clampedPitch) * distance);
 
         cam.setLocation(new Vector3f(camX, camY, camZ));
         cam.lookAt(playerPos, Vector3f.UNIT_Y);

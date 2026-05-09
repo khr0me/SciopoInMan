@@ -15,12 +15,12 @@ public class DesktopLauncher {
         final AppSettings appSettings = new AppSettings(true);
         appSettings.setFullscreen(true);
 
-        // java.awt.DisplayMode dm = java.awt.GraphicsEnvironment
-        //     .getLocalGraphicsEnvironment()
-        //     .getDefaultScreenDevice()
-        //     .getDisplayMode();
+        java.awt.DisplayMode dm = java.awt.GraphicsEnvironment
+            .getLocalGraphicsEnvironment()
+            .getDefaultScreenDevice()
+            .getDisplayMode();
 
-        // appSettings.setResolution(dm.getWidth(), dm.getHeight());
+        appSettings.setResolution(dm.getWidth(), dm.getHeight());
 
         game.setSettings(appSettings);
         game.setShowSettings(false);

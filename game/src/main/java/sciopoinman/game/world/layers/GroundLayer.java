@@ -11,7 +11,6 @@ import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
-
 import com.jme3.texture.Texture;
 
 public class GroundLayer {
@@ -60,12 +59,13 @@ public class GroundLayer {
         control.setLodCalculator( new DistanceLodCalculator(65, 2.7f) ); // patch size, and a multiplier
         terrain.addControl(control);
         terrain.setMaterial(matRock);
-        terrain.setLocalTranslation(-50f, -100f, 50f);
+        terrain.setLocalTranslation(-50f, -5, 50f);
         terrain.setLocalScale(1f, 0.05f, 1f);
+
+        rootNode.attachChild(terrain);
 
         RigidBodyControl groundPhysics = new RigidBodyControl(0f);
         terrain.addControl(groundPhysics);
-        rootNode.attachChild(terrain);
         physicsSpace.add(groundPhysics);
     }
 }

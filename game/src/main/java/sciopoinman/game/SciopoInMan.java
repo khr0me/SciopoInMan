@@ -5,6 +5,7 @@ import com.jme3.app.state.AppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -66,7 +67,10 @@ public class SciopoInMan extends SimpleApplication {
         worldRenderer = new WorldRenderer(assetManager, rootNode, bulletAppState.getPhysicsSpace(), cam);
 
         BetterCharacterControl physicsChar = new BetterCharacterControl(0.4f, 1.8f, 80f);
-        physicsChar.setPhysicsDamping(1f);
+        physicsChar.setPhysicsDamping(0.9f);
+        physicsChar.setGravity(new Vector3f(0, -50f, 0));
+        physicsChar.setJumpForce(new Vector3f(0, 300, 0));
+
         playerNode.addControl(physicsChar);
         playerNode.addControl(new PlayerControl(inputState, cam, physicsChar));
         bulletAppState.getPhysicsSpace().add(playerNode);

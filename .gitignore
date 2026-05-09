@@ -1,11 +1,17 @@
-/.gradle/
-/.nb-gradle/
-/build/
-/private/
-/*.dll
-/*.dylib
-/*.so
+# Gradle
+.gradle/
+build/
+bin/
 
-/.idea/
+# IDEs
+.idea/
+.nb-gradle/
 
+# Native libraries
+*.dll
+*.dylib
+*.so
+
+# Local properties
 local.properties
+private/
