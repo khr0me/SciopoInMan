@@ -4,17 +4,13 @@ import com.jme3.asset.AssetManager;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
-import com.jme3.math.FastMath;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Quad;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
-import com.jme3.terrain.heightmap.HillHeightMap;
 import com.jme3.texture.Texture;
 
 public class GroundLayer {
@@ -26,7 +22,7 @@ public class GroundLayer {
 
     public GroundLayer(AssetManager assetManager, Node rootNode, PhysicsSpace physicsSpace, Camera cam) {
 
-        Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/splat/mountains1024.png");
+        Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/splat/mountains1024.jpg");
         matRock = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
         matRock.setBoolean("useTriPlanarMapping", false);
         matRock.setTexture("Alpha", assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));

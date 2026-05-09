@@ -17,6 +17,9 @@ public class PlayerInputState extends BaseAppState {
     private boolean moveBack;
     private boolean moveRight;
     private boolean switchView;
+    private boolean jump;
+    private boolean sprint;
+    private boolean crouch;
     private float MouseX;
     private float MouseY;
 
@@ -38,7 +41,12 @@ public class PlayerInputState extends BaseAppState {
             case "Left" -> moveLeft = isPressed;
             case "Back" -> moveBack = isPressed;
             case "Right" -> moveRight = isPressed;
-            case "SwitchView" -> { if (isPressed) switchView = true; }
+            case "SwitchView" -> {
+                if (isPressed) switchView = true;
+            }
+            case "Jump" -> jump = isPressed;
+            case "Crouch" -> crouch = isPressed;
+            case "Sprint" -> sprint = isPressed;
             default -> {
             }
         }
@@ -65,6 +73,10 @@ public class PlayerInputState extends BaseAppState {
         app.getInputManager().deleteMapping("Left");
         app.getInputManager().deleteMapping("Back");
         app.getInputManager().deleteMapping("Right");
+        app.getInputManager().deleteMapping("SwitchView");
+        app.getInputManager().deleteMapping("Jump");
+        app.getInputManager().deleteMapping("Crouch");
+        app.getInputManager().deleteMapping("Sprint");
         app.getInputManager().deleteMapping("MouseX");
         app.getInputManager().deleteMapping("MouseXPos");
         app.getInputManager().deleteMapping("MouseY");
@@ -78,10 +90,11 @@ public class PlayerInputState extends BaseAppState {
         app.getInputManager().addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
         app.getInputManager().addMapping("Back", new KeyTrigger(KeyInput.KEY_S));
         app.getInputManager().addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
-        app.getInputManager().addListener(actionListener, "Forward", "Left", "Back", "Right");
 
+        app.getInputManager().addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+        app.getInputManager().addMapping("Sprint", new KeyTrigger(KeyInput.KEY_LSHIFT));
+        app.getInputManager().addMapping("Crouch", new KeyTrigger(KeyInput.KEY_C));
         app.getInputManager().addMapping("SwitchView", new KeyTrigger(KeyInput.KEY_V));
-        app.getInputManager().addListener(actionListener, "SwitchView");
 
         // MOUSE
         app.getInputManager().setCursorVisible(false);
@@ -89,6 +102,8 @@ public class PlayerInputState extends BaseAppState {
         app.getInputManager().addMapping("MouseXPos", new MouseAxisTrigger(MouseInput.AXIS_X, false));
         app.getInputManager().addMapping("MouseY", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
         app.getInputManager().addMapping("MouseYPos", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+        
+        app.getInputManager().addListener(actionListener, "Forward", "Left", "Back", "Right", "SwitchView", "Jump", "Sprint", "Crouch");
         app.getInputManager().addListener(analogListener, "MouseX", "MouseXPos", "MouseY", "MouseYPos");
     }
 
@@ -127,5 +142,25 @@ public class PlayerInputState extends BaseAppState {
         boolean val = switchView;
         switchView = false;
         return val;
+    }
+    
+    public boolean isJump() {
+        boolean val = jump;
+        jump = false;
+        return val;
+    }
+
+    public boolean isSprint() {
+        return sprint;
+    }
+
+    public boolean isCrouch() {
+        boolean val = crouch;
+        crouch = false;
+        return val;
+    }
+
+    public boolean isCrouchHeld() {
+        return crouch;
     }
 }
