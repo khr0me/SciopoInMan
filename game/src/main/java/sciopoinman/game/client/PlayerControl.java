@@ -82,6 +82,10 @@ public class PlayerControl extends AbstractControl {
             physicsChar.jump();
         }
 
+        // SPRINT
+        float currentSpeed = (inputState.isSprint() && physicsChar.isOnGround()) ? speed + 9f : speed;
+        physicsChar.setWalkDirection(movement.mult(currentSpeed));
+
         // ROTAZIONE CORPO (solo asse Y)
         Quaternion bodyRotation = new Quaternion();
         bodyRotation.fromAngles(0, yaw, 0);

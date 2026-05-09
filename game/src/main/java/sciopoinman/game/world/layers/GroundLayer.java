@@ -81,7 +81,7 @@ public class GroundLayer {
         control.setLodCalculator( new DistanceLodCalculator(65, 2.7f) ); // patch size, and a multiplier
         terrain.addControl(control);
         terrain.setMaterial(matRock);
-        terrain.setLocalTranslation(-50f, -300f, 50f);
+        terrain.setLocalTranslation(-50f, -50f, 50f);
         terrain.setLocalScale(1f, 0.05f, 1f);
 
         RigidBodyControl groundPhysics = new RigidBodyControl(0f);
