@@ -17,7 +17,7 @@ import com.jme3.texture.Texture;
 public class GroundLayer {
     private TerrainQuad terrain;
     private Material matRock;
-    private float grassScale = 1024;
+    private float fangoScale = 1024;
     private float dirtScale = 32;
     private float rockScale = 128;
 
@@ -29,10 +29,10 @@ public class GroundLayer {
         matRock.setTexture("Alpha", assetManager.loadTexture("Textures/Terrain/splat/alphamapTrenches.png"));
 
         // GRASS texture
-        Texture grass = assetManager.loadTexture("Textures/Terrain/splat/fango.png");
-        grass.setWrap(Texture.WrapMode.Repeat);
-        matRock.setTexture("Tex1", grass);
-        matRock.setFloat("Tex1Scale", grassScale);
+        Texture fango = assetManager.loadTexture("Textures/Terrain/splat/fango.png");
+        fango.setWrap(Texture.WrapMode.Repeat);
+        matRock.setTexture("Tex1", fango);
+        matRock.setFloat("Tex1Scale", fangoScale);
 
         // DIRT texture
         Texture dirt = assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
@@ -62,7 +62,7 @@ public class GroundLayer {
         terrain.addControl(control);
         terrain.setMaterial(matRock);
         terrain.setLocalTranslation(-50f, -300f, 50f);
-        terrain.setLocalScale(0.6f, 0.01f, 0.6f);
+        terrain.setLocalScale(0.6f, 0.009f, 0.6f);
 
         RigidBodyControl groundPhysics = new RigidBodyControl(0f);
         terrain.addControl(groundPhysics);
